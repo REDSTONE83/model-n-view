@@ -44,7 +44,7 @@
     </div>
     <div>
         <h1>Code</h1>
-        <button onclick="javascript:executeScript();">Execution</button>
+        <button id="btn">Execution</button>
         <textarea id="scripts">
             const labels = data.map(item => {return item.color})
             const datas = data.map(item => {return item.votes})
@@ -124,17 +124,12 @@
             //Append tr tag to Table Body
             ctbody[0].appendChild(tr);
         })
-        //Scripts
-        const runScript = (script) => {
+        
+        //Add Event
+        document.getElementById('btn').addEventListener("click", () => {
+            let script = document.getElementById('scripts').value
             new Function(script)()
-        }
-    </script>
-
-    <script>
-        const executeScript = () => {
-            const script = document.getElementById('scripts').textContent
-            runScript(script)
-        }
+        })
     </script>
 </body>
 </html>

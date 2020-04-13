@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
+    <style lang="text/css">
+        table {
+            border-spacing: 0;
+        }
+        table td {
+            padding: 8px 16px;
+        }
+        table thead td {
+            border-bottom: 1px solid #000000;
+        }
+        .contents {
+            display: flex;
+            flex-flow: row nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="contents">
+        <div>
+            <h1>Table</h1>
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <td>Color</td>
+                        <td>Votes</td>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 100%; margin-left: 32px;">
+            <h1>Chart</h1>
+            <canvas id="myChart" ></canvas>
+        </div>
+    </div>
+    <div>
+        <h1>Code</h1>
+        <button onclick="javascript:executeScript();">Execution</button>
+        <textarea id="scripts">
+            const labels = data.map(item => {return item.color})
+            const datas = data.map(item => {return item.votes})
+    
+            var ctx = document.getElementById('myChart');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of Votes',
+                        data: datas,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </textarea>
+    </div>
+
+    <script>
+        //Data's
+        const data = [
+            {color: 'Red', votes: 12},
+            {color: 'Blue', votes: 19},
+            {color: 'Yellow', votes: 3},
+            {color: 'Green', votes: 5},
+            {color: 'Purple', votes: 9},
+            {color: 'Orange', votes: 3}
+        ]
+
+        //Table Body
+        var ctbody = document.getElementById('myTable').getElementsByTagName("tbody");
+
+        data.forEach(item => {
+            //Create new tr tag
+            var tr = document.createElement("tr");
+
+            //Create and append td tag for Color
+            var colortd = document.createElement("td");
+            var colortext = document.createTextNode(item.color);
+            colortd.appendChild(colortext);
+
+            //Create and appen td tag for Votes
+            var votestd = document.createElement("td");
+            var votestext = document.createTextNode(item.votes);
+            votestd.appendChild(votestext);
+
+            //Append td tags to tr
+            tr.appendChild(colortd);
+            tr.appendChild(votestd);
+
+            //Append tr tag to Table Body
+            ctbody[0].appendChild(tr);
+        })
+        //Scripts
+        const runScript = (script) => {
+            new Function(script)()
+        }
+    </script>
+
+    <script>
+        const executeScript = () => {
+            const script = document.getElementById('scripts').textContent
+            runScript(script)
+        }
+    </script>
+</body>
+</html>
